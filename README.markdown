@@ -6,8 +6,10 @@ PowerDMS is a Ruby on Rails application that provides a multi-user web interface
 It works against the database server of a [*PowerDNS*][1] installation with the PostgreSQL/MySQL backend.
 
 ## Inspiration
-I know there are other alternatives to managing [*PowerDNS*][1], and I'm not trying to fill a demand in the marked either. 
-The main purpose of this application is to learn and enhance skills in Ruby/Rails programming.
+The goal of this application isn't to meet a demand nor replace existing solutions. Yes, I do know that 
+there's many similar solutions out there. Some of you might even say I'm reinventing the wheel.
+
+I'm doing this as a learning experience enhancing programming skills in Ruby/Rails.
 
 ## Plugins
 HAML, Gravatar
