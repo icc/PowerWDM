@@ -5,6 +5,8 @@ Powerful DNS Management System for [*PowerDNS*][1].
 PowerDMS is a Ruby on Rails application that provides a multi-user web interface for DNS management.
 It works against the database server of a [*PowerDNS*][1] installation with the PostgreSQL/MySQL backend.
 
+*Please note that this project isn't based on test driven development.*
+
 ## Inspiration
 The goal of this application isn't to meet a demand nor replace existing solutions. Yes, I do know that 
 there's many similar solutions out there. Some of you might even say I'm reinventing the wheel.
