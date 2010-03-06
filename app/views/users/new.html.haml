@@ -1,2 +1,21 @@
-<h2>Sign up!</h2>
+%h2 Sign up!
 
+- form_for @user do |f|
+  = f.error_messages
+  %table
+    %tr
+      %th= f.label :name
+      %td= f.text_field :name
+    %tr
+      %th= f.label :password
+      %td= f.password_field :password
+    %tr
+      %th= f.label :password_confirmation
+      %td= f.password_field :password_confirmation
+    %tr
+      %th &nbsp;
+      %td= f.submit "Sign up"
+    %tr
+      %td{:class => 'last', :colspan => '2'} 
+        Already have an account?
+        = link_to 'Login now!', '/login'
