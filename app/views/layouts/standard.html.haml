@@ -4,19 +4,21 @@
     %title PowerDMS
     %meta{:charset => "utf-8"}
     %meta{:name => "Description", :content => "PowerDMS: Powerful DNS Management System for PowerDNS"}
-    %meta{:name => "Keywords", :content => "PowerDMS, PowerDNS, Management, System, Web, Interface, DNS"}
+    %meta{:name => "Keywords", :content => "PowerDMS, PowerDNS, Management, System, Web, Interface, DNS, Powerful"}
     %meta{:name => "Robots", :content => "All"}
     %meta{:name => "Author", :content => "Frode Petterson"}
     %link{'rel' => 'shortcut icon', :href => '/images/icon.png', 'type' => "image/png"}
     %link{'rel' => 'stylesheet', :href => '/stylesheets/screen.css', :media => 'screen, projection'}    
     /[if IE]
       %link{'rel' => 'stylesheet', :href => '/stylesheets/ie.css', :media => 'screen, projection'}
-    %link{'rel' => 'stylesheet', :href => '/stylesheets/inside.css', :media => 'screen, projection'}
+    %link{'rel' => 'stylesheet', :href => '/stylesheets/custom.css', :media => 'screen, projection'}
   %body
     #wrapper
       #header
         %header
-          %h1 PowerDMS
-      - flash.each do |key, value|
-        %div(class = "flash #{key}")= value 
-      = yield
+          %h1 Power<span class="darkblue">DMS</span>
+          %p{:class => 'darkblue'} Powerful DNS Management System
+      #content
+        = yield
+        - flash.each do |key, value|
+          %div(class = "flash #{key}")= value 

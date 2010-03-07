@@ -1,9 +1,8 @@
 class UsersController < ApplicationController
-  layout 'inside'
+  layout 'standard'
 
   def new
     @user = User.new    
-    render 'new', :layout => 'outside'
   end
 
   def create
@@ -12,7 +11,7 @@ class UsersController < ApplicationController
       flash[:success] = "Signup success!"
       redirect_to "/users/#{@user.pretty_url}"
     else
-      render 'new', :layout => 'outside'
+      render 'new'
     end
   end
 
@@ -30,7 +29,7 @@ class UsersController < ApplicationController
   end
 
   def login
-    render 'login', :layout => 'outside'
+    render 'login'
   end
 
   def authenticate
