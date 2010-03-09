@@ -32,3 +32,41 @@ table td.last {
 .errorExplanation h2 {
   font-size: 1.5em;
 }
+#user_details {
+//  background: #ddd;
+  float: right;
+  width: 50em;
+  margin: 0.5em 0 0 0;
+}
+#user_details img.gravatar {
+  float: right;
+}
+#user_details p {
+  text-align: right;
+  font-size: 1.4em;
+  margin: 0 4em 0 0;
+  color: #0083bc;
+}
+#user_details ul {
+  float:right;
+}
+#user_details ul li {
+  margin: 0 0 0 1em;
+  padding: .1em 1em .1em 1em;
+  float: left;
+  display: block;
+  border: 1px #bbb solid;
+  background: url('/images/button_background.png');
+}
+#user_details ul li a {
+  text-decoration: none;
+  color: #000;
+}
+#user_details ul li:active {
+  background: url('/images/button_background_180.png');
+}
+.round {
+  -moz-border-radius:    .5em;
+  -webkit-border-radius: .5em;
+}
+

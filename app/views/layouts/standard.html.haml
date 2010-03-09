@@ -14,11 +14,18 @@
     %link{'rel' => 'stylesheet', :href => '/stylesheets/custom.css', :media => 'screen, projection'}
   %body
     #wrapper
+      - if @logged_in_user
+        #user_details
+          = gravatar_for @logged_in_user
+          %p= @logged_in_user.name
+          %ul
+            %li.round= link_to 'Change password', :action => 'edit'
+            %li.round= link_to 'Logout', '/logout'
       #header
         %header
           %h1 Power<span class="darkblue">DMS</span>
-          %p{:class => 'darkblue'} Powerful DNS Management System
+          %p.darkblue Powerful DNS Management System
+      - flash.each do |key, value|
+        %div(class = "flash #{key}")= value 
       #content
         = yield
-        - flash.each do |key, value|
-          %div(class = "flash #{key}")= value 

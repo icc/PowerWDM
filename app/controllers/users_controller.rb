@@ -37,11 +37,16 @@ class UsersController < ApplicationController
     if user and user.has_password? params[:password]
       flash[:success] = "Login success!"
       session[:user_id] = user.id 
-      redirect_to user
+      redirect_to '/users'
     else
       flash[:error] = "Invalid username and/or password"
       redirect_to "/login"
     end
   end
 
+  def sign_off
+    session[:user_id] = nil
+    flash[:success] = "Have a nice day."
+    redirect_to "/login"
+  end
 end

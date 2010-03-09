@@ -4,7 +4,15 @@
 class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
+  before_filter :logged_in?
 
   # Scrub sensitive parameters from your log
   filter_parameter_logging :password
+
+  private
+   def logged_in?
+     if session[:user_id]
+       @logged_in_user = User.find session[:user_id]
+     end
+   end
 end
