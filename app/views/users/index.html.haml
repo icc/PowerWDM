@@ -1,1 +1,32 @@
-Users list...
+%h2 User list
+%table
+  %tr
+    %th 
+    %th Name
+    %th Role
+  - @users.each do |u|
+    %tr
+      %td= gravatar_for u, :size => '30'
+      %td= u.name
+      %td= u.role
+
+%h2 Invites
+- form_for @invite, :url => { :action => "create_invite" }  do |f|
+  %table
+    %tr
+      %th
+      %th Name / E-mail 
+      %th
+    - @invites.each do |i|
+      %tr
+        %td= gravatar_for i, :size => '30'
+        %td= i.name
+        %td= link_to 'delete', "/users/destroy_invite/#{i.id}"
+
+    %tr
+      %td
+      %td
+        = f.text_field :name
+        = f.submit "Invite"
+      %td
+  = f.error_messages

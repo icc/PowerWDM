@@ -1,0 +1,11 @@
+%h2 New invite
+
+- form_for @invite do |f|
+  = f.error_messages
+  %table
+    %tr
+      %th= f.label :name
+      %td= f.text_field :name
+    %tr
+      %th &nbsp;
+      %td= f.submit "Invite"

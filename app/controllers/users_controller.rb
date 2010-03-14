@@ -1,6 +1,13 @@
 class UsersController < ApplicationController
   layout 'standard'
 
+  def index
+    @users = User.find :all
+    @invites = Invite.find :all
+
+    @invite = Invite.new unless @invite
+  end
+
   def new
     @user = User.new    
   end
@@ -9,7 +16,7 @@ class UsersController < ApplicationController
     @user = User.new params[:user]
     if @user.save
       flash[:success] = "Signup success!"
-      redirect_to "/users/#{@user.pretty_url}"
+      redirect_to "/login"
     else
       render 'new'
     end
@@ -23,6 +30,14 @@ class UsersController < ApplicationController
   end
 
   def update
+    @logged_in_user.password = params[:user][:password]
+    @logged_in_user.password_confirmation = params[:user][:password_confirmation]
+    if @logged_in_user.save
+      flash[:success] = "Password changed."
+      redirect_to "/users"
+    else
+      render 'edit'
+    end
   end
 
   def destroy
@@ -48,5 +63,21 @@ class UsersController < ApplicationController
     session[:user_id] = nil
     flash[:success] = "Have a nice day."
     redirect_to "/login"
+  end
+  
+  def create_invite
+    @invite = Invite.new params[:invite]
+    if @invite.save
+      flash[:success] = "Invite success!"
+      redirect_to '/users'
+    else
+      index
+      render 'index'
+    end
+  end
+
+  def destroy_invite
+    Invite.delete params[:id]
+    redirect_to '/users'
   end
 end

@@ -33,40 +33,53 @@ table td.last {
   font-size: 1.5em;
 }
 #user_details {
-//  background: #ddd;
+  background: url('/images/user_details_background.png');
   float: right;
-  width: 50em;
-  margin: 0.5em 0 0 0;
+  width: 40em;
+  padding: 1em 1em .5em 0;
+  -moz-border-radius:    .5em;
+  -webkit-border-radius: .5em;
 }
 #user_details img.gravatar {
   float: right;
+  border: 1px #888 solid;
+  padding:.25em;
+  background: #888;
+  -moz-border-radius:    .5em;
+  -webkit-border-radius: .5em;
 }
 #user_details p {
   text-align: right;
   font-size: 1.4em;
-  margin: 0 4em 0 0;
-  color: #0083bc;
+  margin: 0 4.2em 0 0;
+  color: #aaa;
 }
 #user_details ul {
   float:right;
+  margin: 1.1em 1em .65em 0;
 }
 #user_details ul li {
-  margin: 0 0 0 1em;
-  padding: .1em 1em .1em 1em;
   float: left;
   display: block;
-  border: 1px #bbb solid;
-  background: url('/images/button_background.png');
 }
 #user_details ul li a {
+  margin: 0 0 0 1em;
+  padding: .2em 1em .2em 1em;
+  border: 1px #888 solid;
+  background: url('/images/button_background.png');  
   text-decoration: none;
-  color: #000;
+  color: #ccc;
+  -moz-border-radius:    .5em;
+  -webkit-border-radius: .5em;
 }
-#user_details ul li:active {
+#user_details ul li a:hover {
+  color: #fff;
+  border: 1px #fff solid;
+}
+#user_details ul li a:active {
   background: url('/images/button_background_180.png');
 }
 .round {
   -moz-border-radius:    .5em;
   -webkit-border-radius: .5em;
 }
-
