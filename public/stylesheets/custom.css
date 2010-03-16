@@ -17,13 +17,13 @@ body {
 .darkblue {
   color: #0083bc;
 }
-table {
+table.form {
   width: 32em;
 }
-table td {
+table.form td {
   padding:0;
 }
-table td.last {
+table.form td.last {
   padding: 1em 0 0 0;
 }
 .errorExplanation {
@@ -82,4 +82,29 @@ table td.last {
 .round {
   -moz-border-radius:    .5em;
   -webkit-border-radius: .5em;
+}
+table.list {
+  border-collapse:collapse;
+  background: url('/images/table_background.png') repeat-x;
+}
+table.list tr th {
+  color:#fff;
+  padding:0.6em;
+}
+table.list tr td {
+  border-bottom: dotted 1px #333;
+  padding: 0.2em;
+}
+table.list tr td.image_cell {
+  width:3.1em;
+}
+table.list tr:hover {
+  background:#cbe1ff;
+}
+table.list tr.header:hover{
+  background:none;
+}
+table.list tr td img {
+  padding: 0.3em 0.3em 0 0.3em;
+  margin:0;
 }

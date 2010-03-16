@@ -22,10 +22,6 @@ class UsersController < ApplicationController
     end
   end
 
-  def show
-    @user = User.find params[:id]
-  end
-
   def edit
   end
 
@@ -41,6 +37,12 @@ class UsersController < ApplicationController
   end
 
   def destroy
+    if @logged_in_user.role == 'admin'
+      user = User.find params[:id]
+      User.delete user.id
+      flash['success'] = "User #{user.name} was successfully removed."
+    end
+    redirect_to '/users'
   end
 
   def login
@@ -78,6 +80,28 @@ class UsersController < ApplicationController
 
   def destroy_invite
     Invite.delete params[:id]
+    redirect_to '/users'
+  end
+
+  def promote
+    if @logged_in_user.role == 'admin'
+      user = User.find params[:id] 
+      user.role = 'admin'
+      if user.save(false)
+        flash[:success] = "#{user.name} was successfully promoted to admin."
+      end
+    end
+    redirect_to '/users'
+  end
+
+  def demote
+    if @logged_in_user.role == 'admin'
+      user = User.find params[:id]
+      user.role = 'user'
+      if user.save(false)
+        flash[:success] = "#{user.name} was successfully demoted to regular user."
+      end
+    end
     redirect_to '/users'
   end
 end

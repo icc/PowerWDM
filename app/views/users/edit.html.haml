@@ -2,13 +2,13 @@
 
 - form_for @logged_in_user do |f|
   = f.error_messages :header_message => "You have some errors that prevented you from changing your password."
-  %table
+  %table.form
     %tr
       %th= f.label :password
       %td= f.password_field :password, :value => ''
     %tr
       %th= f.label :password_confirmation
-      %td= f.password_field :password_confirmation
+      %td= f.password_field :password_confirmation, :value => ''
     %tr
       %th &nbsp;
       %td= f.submit "Update"

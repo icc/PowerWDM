@@ -1,32 +1,50 @@
 %h2 User list
-%table
-  %tr
+%table.list.round
+  %tr.header
     %th 
     %th Name
     %th Role
+    %th
+    %th
   - @users.each do |u|
     %tr
-      %td= gravatar_for u, :size => '30'
-      %td= u.name
-      %td= u.role
+      %td.image_cell= gravatar_for u, :size => '30'
+      %td.name_cell= u.name
+      %td.role_cell= u.role.capitalize
+      - if @logged_in_user.role == 'admin'
+        - if u.id == @logged_in_user.id
+          %td.image_cell
+        - else
+          - if u.role == "admin"
+            %td.image_cell= link_to '<img src="/images/demote.png" alt="Demote to regular user">', "/users/demote/#{u.pretty_url}", :confirm => "Demote #{u.name} to regular user?"
+          - else
+            %td.image_cell= link_to '<img src="/images/promote.png" alt="Promote to admin">', "/users/promote/#{u.pretty_url}", :confirm => "Promote #{u.name} to admin?"
+        - if u.id == @logged_in_user.id
+          %td.image_cell
+        - else
+          %td.image_cell= link_to '<img src="/images/delete.png" alt="Delete user">', "/users/destroy/#{u.pretty_url}", :confirm => "Delete user #{u.name}?"
+      - else
+        %td.image_cell
+        %td.image_cell 
 
-%h2 Invites
-- form_for @invite, :url => { :action => "create_invite" }  do |f|
-  %table
-    %tr
-      %th
-      %th Name / E-mail 
-      %th
-    - @invites.each do |i|
-      %tr
-        %td= gravatar_for i, :size => '30'
-        %td= i.name
-        %td= link_to 'delete', "/users/destroy_invite/#{i.id}"
+- if @logged_in_user.role == 'admin'
+  %h2 Invites
+  - form_for @invite, :url => { :action => "create_invite" }  do |f|
+    %table.list.round
+      %tr.header
+        %th
+        %th Name / E-mail 
+        %th
+      - @invites.each do |i|
+        %tr
+          %td.image_cell= gravatar_for i, :size => '30'
+          %td.name_cell= i.name
+          %td.delete_cell= link_to 'delete', "/users/destroy_invite/#{i.id}"
 
-    %tr
-      %td
-      %td
-        = f.text_field :name
-        = f.submit "Invite"
-      %td
-  = f.error_messages
+      %tr 
+        %td
+        %td
+          = f.text_field :name
+          = f.submit "Invite"
+        %td
+    = f.error_messages

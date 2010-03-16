@@ -7,9 +7,9 @@ class User < ActiveRecord::Base
   validates_length_of :name, :maximum => 255
   validates_length_of :password, :within => 6..40
 
-  before_save :encrypt_password
-  before_save :set_role
-  before_save :remove_invite
+  after_validation :encrypt_password
+  before_create :set_role
+  before_create :remove_invite
 
   def pretty_url
     "#{id}-#{name.parameterize}"
@@ -35,6 +35,7 @@ class User < ActiveRecord::Base
     def encrypt_password(p = password)
       self.created_at = Time.now if created_at.nil?
       self.password = Digest::SHA2.hexdigest(created_at.to_s.reverse + p[0..3] + created_at.to_f.to_s + p[-p.length+4..-1] + created_at.to_i.to_s.reverse)
+    rescue
     end
 
     def set_role
