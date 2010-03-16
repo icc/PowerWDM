@@ -2,7 +2,7 @@
 %table.list.round
   %tr.header
     %th 
-    %th Name
+    %th Name / E-mail
     %th Role
     %th
     %th
@@ -39,7 +39,7 @@
         %tr
           %td.image_cell= gravatar_for i, :size => '30'
           %td.name_cell= i.name
-          %td.delete_cell= link_to 'delete', "/users/destroy_invite/#{i.id}"
+          %td.image_cell= link_to '<img src="/images/delete.png" alt="Delete user">', "/users/destroy_invite/#{i.id}", :confirm => "Remove invite on #{i.name}?"
 
       %tr 
         %td

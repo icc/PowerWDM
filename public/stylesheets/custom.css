@@ -95,6 +95,9 @@ table.list tr td {
   border-bottom: dotted 1px #333;
   padding: 0.2em;
 }
+table.list tr td.role_cell {
+  width:5em;
+}
 table.list tr td.image_cell {
   width:3.1em;
 }
