@@ -2,7 +2,7 @@
 
 - form_for @user do |f|
   = f.error_messages
-  %table.form
+  %table.form.round
     %tr
       %th= f.label :name
       %td= f.text_field :name
@@ -15,7 +15,7 @@
     %tr
       %th &nbsp;
       %td= f.submit "Sign up"
-    %tr
-      %td{:class => 'last', :colspan => '2'} 
-        Already have an account?
-        = link_to 'Login now!', '/login'
+
+%p
+  Already have an account?
+  = link_to 'Login now!', '/login'

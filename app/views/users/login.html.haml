@@ -1,6 +1,6 @@
 %h2 Login
 - form_tag '/users/authenticate' do
-  %table.form
+  %table.form.round
     %tr
       %th= label_tag :name
       %td= text_field_tag :name
@@ -10,7 +10,6 @@
     %tr
       %th &nbsp;
       %td= submit_tag "Login"
-    %tr
-      %td{:class => 'last', :colspan => '2'}
-        Don't have a user account yet?
-        = link_to 'Sign up!', '/signup'
+%p
+  Don't have a user account yet?
+  = link_to 'Sign up!', '/signup'

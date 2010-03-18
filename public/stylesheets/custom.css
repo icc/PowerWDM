@@ -3,9 +3,10 @@ body {
 }
 #wrapper {
   margin: 1em auto 0 auto;
-  width: 100em;
+  width: 80em;
 }
 #header h1 {
+  padding:0.08em 0 0 0;
   margin:0;
   font-weight:bold;
   color: #00aaf4;
@@ -13,18 +14,24 @@ body {
 }
 #header p {
   font-size: 1.3em;
+  margin:0 0 1.2em 0;
 }
 .darkblue {
   color: #0083bc;
 }
 table.form {
-  width: 32em;
+  padding: 1em 0 1.4em 0;
+  width: 40em;
+  border: 1px #575b5f solid;
+  background: url('/images/table_form_background.png') repeat-y;
 }
-table.form td {
-  padding:0;
+table.form tr td {
+  padding:0 0 0 0.8em ;
 }
-table.form td.last {
-  padding: 1em 0 0 0;
+table.form tr th {
+  width:12em;
+  color:#fff;
+  text-align: right;
 }
 .errorExplanation {
   margin: 0 0 0 1em;
@@ -69,8 +76,6 @@ table.form td.last {
   background: url('/images/button_background.png');  
   text-decoration: none;
   color: #ccc;
-  -moz-border-radius:    .5em;
-  -webkit-border-radius: .5em;
 }
 #user_details ul li a:hover {
   color: #fff;
@@ -84,8 +89,8 @@ table.form td.last {
   -webkit-border-radius: .5em;
 }
 table.list {
-  border-collapse:collapse;
-  background: url('/images/table_background.png') repeat-x;
+  background: url('/images/table_list_background.png') repeat-x;
+  border: 1px #575b5f solid;
 }
 table.list tr th {
   color:#fff;
@@ -94,6 +99,9 @@ table.list tr th {
 table.list tr td {
   border-bottom: dotted 1px #333;
   padding: 0.2em;
+}
+table.list tr.last td {
+  border-bottom: none;
 }
 table.list tr td.role_cell {
   width:5em;
@@ -110,4 +118,8 @@ table.list tr.header:hover{
 table.list tr td img {
   padding: 0.3em 0.3em 0 0.3em;
   margin:0;
+}
+
+.flash {
+  float:right;
 }

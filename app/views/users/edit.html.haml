@@ -2,7 +2,7 @@
 
 - form_for @logged_in_user do |f|
   = f.error_messages :header_message => "You have some errors that prevented you from changing your password."
-  %table.form
+  %table.form.round
     %tr
       %th= f.label :password
       %td= f.password_field :password, :value => ''

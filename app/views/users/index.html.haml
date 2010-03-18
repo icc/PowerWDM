@@ -1,31 +1,32 @@
 %h2 User list
 %table.list.round
   %tr.header
-    %th 
+    %th
     %th Name / E-mail
     %th Role
     %th
     %th
   - @users.each do |u|
-    %tr
-      %td.image_cell= gravatar_for u, :size => '30'
-      %td.name_cell= u.name
-      %td.role_cell= u.role.capitalize
-      - if @logged_in_user.role == 'admin'
-        - if u.id == @logged_in_user.id
-          %td.image_cell
-        - else
-          - if u.role == "admin"
-            %td.image_cell= link_to '<img src="/images/demote.png" alt="Demote to regular user">', "/users/demote/#{u.pretty_url}", :confirm => "Demote #{u.name} to regular user?"
-          - else
-            %td.image_cell= link_to '<img src="/images/promote.png" alt="Promote to admin">', "/users/promote/#{u.pretty_url}", :confirm => "Promote #{u.name} to admin?"
-        - if u.id == @logged_in_user.id
-          %td.image_cell
-        - else
-          %td.image_cell= link_to '<img src="/images/delete.png" alt="Delete user">', "/users/destroy/#{u.pretty_url}", :confirm => "Delete user #{u.name}?"
-      - else
+    - if @users.last == u then puts '<tr class="last">' else puts "<tr>" end
+    %td.image_cell= gravatar_for u, :size => '30'
+    %td.name_cell= u.name
+    %td.role_cell= u.role.capitalize
+    - if @logged_in_user.role == 'admin'
+      - if u.id == @logged_in_user.id
         %td.image_cell
-        %td.image_cell 
+      - else
+        - if u.role == "admin"
+          %td.image_cell= link_to '<img src="/images/demote.png" alt="Demote to regular user">', "/users/demote/#{u.pretty_url}", :confirm => "Demote #{u.name} to regular user?"
+        - else
+          %td.image_cell= link_to '<img src="/images/promote.png" alt="Promote to admin">', "/users/promote/#{u.pretty_url}", :confirm => "Promote #{u.name} to admin?"
+      - if u.id == @logged_in_user.id
+        %td.image_cell
+      - else
+        %td.image_cell= link_to '<img src="/images/delete.png" alt="Delete user">', "/users/destroy/#{u.pretty_url}", :confirm => "Delete user #{u.name}?"
+    - else
+      %td.image_cell
+      %td.image_cell
+    - puts '</tr>'
 
 - if @logged_in_user.role == 'admin'
   %h2 Invites
@@ -41,7 +42,7 @@
           %td.name_cell= i.name
           %td.image_cell= link_to '<img src="/images/delete.png" alt="Delete user">', "/users/destroy_invite/#{i.id}", :confirm => "Remove invite on #{i.name}?"
 
-      %tr 
+      %tr.last
         %td
         %td
           = f.text_field :name
