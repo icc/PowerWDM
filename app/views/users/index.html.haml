@@ -16,13 +16,19 @@
         %td.image_cell
       - else
         - if u.role == "admin"
-          %td.image_cell= link_to '<img src="/images/demote.png" alt="Demote to regular user">', "/users/demote/#{u.pretty_url}", :confirm => "Demote #{u.name} to regular user?"
+          %td.image_cell
+            %a{:href => "/users/demote/#{u.pretty_url}", :onclick => "return confirm('Demote #{u.name} to regular user?');"}
+              %img{:src => '/images/demote.png', :alt => 'Demote', :class => 'demote'}
         - else
-          %td.image_cell= link_to '<img src="/images/promote.png" alt="Promote to admin">', "/users/promote/#{u.pretty_url}", :confirm => "Promote #{u.name} to admin?"
+          %td.image_cell
+            %a{:href => "/users/promote/#{u.pretty_url}", :onclick => "return confirm('Promote #{u.name} to admin?');"}
+              %img{:src => '/images/promote.png', :alt => 'Promote', :class => 'promote'}
       - if u.id == @logged_in_user.id
         %td.image_cell
       - else
-        %td.image_cell= link_to '<img src="/images/delete.png" alt="Delete user">', "/users/destroy/#{u.pretty_url}", :confirm => "Delete user #{u.name}?"
+        %td.image_cell
+          %a{:href => "/users/destroy/#{u.pretty_url}", :onclick => "return confirm('Delete user #{u.name}?');"}
+            %img{:src => '/images/delete.png', :alt => 'Delete', :class => 'delete'}
     - else
       %td.image_cell
       %td.image_cell
@@ -40,12 +46,32 @@
         %tr
           %td.image_cell= gravatar_for i, :size => '30'
           %td.name_cell= i.name
-          %td.image_cell= link_to '<img src="/images/delete.png" alt="Delete user">', "/users/destroy_invite/#{i.id}", :confirm => "Remove invite on #{i.name}?"
+          %td.image_cell
+            %a{:href => "/users/destroy_invite/#{i.id}", :onclick => "return confirm('Remove invite on #{i.name}?');"}
+              %img{:src => '/images/delete.png', :alt => 'Delete', :class => 'delete'}
 
       %tr.last
         %td
         %td
+          = f.error_messages :header_message => "", :message => "There were problems with the following:"
           = f.text_field :name
           = f.submit "Invite"
         %td
-    = f.error_messages
+
+#delete.tooltip.round
+  %p Delete
+#promote.tooltip.round
+  %p Promote to admin
+#demote.tooltip.round
+  %p Demote to regular user
+
+:javascript
+  $$('.delete').each(function(n) {
+    new Tooltip(n, 'delete');
+  })
+  $$('.promote').each(function(n) {
+    new Tooltip(n, 'promote');
+  })
+  $$('.demote').each(function(n) {
+    new Tooltip(n, 'demote');
+  })

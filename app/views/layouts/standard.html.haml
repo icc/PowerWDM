@@ -12,6 +12,8 @@
     /[if IE]
       %link{'rel' => 'stylesheet', :href => '/stylesheets/ie.css', :media => 'screen, projection'}
     %link{'rel' => 'stylesheet', :href => '/stylesheets/custom.css', :media => 'screen, projection'}
+    = javascript_include_tag 'prototype'
+    = javascript_include_tag 'tooltip'
   %body
     #wrapper
       - if @logged_in_user
@@ -27,7 +29,8 @@
         %header
           %h1 Power<span class="darkblue">DMS</span>
           %p.darkblue Powerful DNS Management System
-      - flash.each do |key, value|
-        %div(class = "flash #{key} round")= value 
+      - unless params[:action] == 'login'
+        - flash.each do |key, value|
+          %div(class = "flash #{key} right")= value 
       #content
         = yield

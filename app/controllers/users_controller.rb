@@ -56,7 +56,7 @@ class UsersController < ApplicationController
       session[:user_id] = user.id 
       redirect_to '/users'
     else
-      flash[:error] = "Invalid username and/or password"
+      flash[:error] = "Invalid username and/or password."
       redirect_to "/login"
     end
   end

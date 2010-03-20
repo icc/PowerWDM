@@ -1,10 +1,15 @@
 %h2 Sign up!
 
 - form_for @user do |f|
-  = f.error_messages
+  = f.error_messages :header_message => "", :message => "There were problems with the following:"
   %table.form.round
     %tr
-      %th= f.label :name
+      %th
+      %td
+        - flash.each do |key, value|
+          %div(class = "flash #{key} no_space")= value
+    %tr
+      %th= f.label 'Name / e-mail'
       %td= f.text_field :name
     %tr
       %th= f.label :password

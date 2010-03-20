@@ -2,7 +2,12 @@
 - form_tag '/users/authenticate' do
   %table.form.round
     %tr
-      %th= label_tag :name
+      %th
+      %td
+        - flash.each do |key, value|
+          %div(class = "flash #{key} no_space")= value
+    %tr
+      %th= label_tag 'Name / e-mail'
       %td= text_field_tag :name
     %tr
       %th= label_tag :password
