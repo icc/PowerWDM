@@ -16,9 +16,68 @@ body {
   font-size: 1.3em;
   margin:0 0 1.2em 0;
 }
+
 .darkblue {
   color: #0083bc;
 }
+.round {
+  -moz-border-radius:    .5em;
+  -webkit-border-radius: .5em;
+}
+.right {
+  float:right;
+}
+.flash {
+  border: none;
+  background: none;
+  font-weight: bold;
+  font-size: 1.2em;
+  padding: .6em 0 0 0;
+  margin:0;
+}
+.no_space {
+  margin:0;
+  padding:0;
+}
+.error {
+  color:#fd6363;
+}
+.success {
+  color:#18a818;
+}
+.tooltip {
+  padding:.7em;
+  border: 1px #333 solid;
+  background:rgba(255,255,255,0.7);
+  display:none;
+}
+.tooltip p {
+  margin:0;
+}
+
+// Tooltips
+#delete.tooltip {
+  background:rgba(253,99,99,0.7);
+}
+#promote.tooltip {
+  background:rgba(66,238,67,0.7);
+}
+#demote.tooltip {
+  background:rgba(231,149,92,0.7);
+}
+
+// Error list
+#errorExplanation {
+  margin: 0 0 0 1em;
+}
+#errorExplanation p {
+  color: #fd6363;
+  margin:0;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+// Form table
 table.form {
   padding: 1em 0 1.4em 0;
   width: 40em;
@@ -33,12 +92,8 @@ table.form tr th {
   color:#fff;
   text-align: right;
 }
-.errorExplanation {
-  margin: 0 0 0 1em;
-}
-.errorExplanation h2 {
-  font-size: 1.5em;
-}
+
+// User details
 #user_details {
   background: url('/images/user_details_background.png');
   float: right;
@@ -84,10 +139,8 @@ table.form tr th {
 #user_details ul li a:active {
   background: url('/images/button_background_180.png');
 }
-.round {
-  -moz-border-radius:    .5em;
-  -webkit-border-radius: .5em;
-}
+
+// List table
 table.list {
   background: url('/images/table_list_background.png') repeat-x;
   border: 1px #575b5f solid;
@@ -118,52 +171,4 @@ table.list tr.header:hover{
 table.list tr td img {
   padding: 0.3em 0.3em 0 0.3em;
   margin:0;
-}
-.right {
-  float:right;
-}
-.flash {
-  border: none;
-  background: none;
-  font-weight: bold;
-  font-size: 1.2em;
-  padding: .6em 0 0 0;
-  margin:0;
-}
-.no_space {
-  margin:0;
-  padding:0;
-}
-.error {
-  color:#fd6363;
-}
-.success {
-  color:#18a818;
-}
-
-#errorExplanation p {
-  color: #fd6363;
-  margin:0;
-  font-weight: bold;
-  font-size: 1.2em;
-}
-
-
-.tooltip {
-  padding:.7em;
-  border: 1px #333 solid;
-  background:rgba(255,255,255,0.7);
-  display:none;
-}
-.tooltip p {
-  margin:0;
-}
-#delete.tooltip {
-  background:rgba(253,99,99,0.7);
-}
-#promote.tooltip {
-  background:rgba(66,238,67,0.7);
-}
-#demote.tooltip {
-  background:rgba(231,149,92,0.7);
 }
