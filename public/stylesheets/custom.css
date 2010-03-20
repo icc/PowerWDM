@@ -55,7 +55,6 @@ body {
   margin:0;
 }
 
-// Tooltips
 #delete.tooltip {
   background:rgba(253,99,99,0.7);
 }
@@ -66,7 +65,6 @@ body {
   background:rgba(231,149,92,0.7);
 }
 
-// Error list
 #errorExplanation {
   margin: 0 0 0 1em;
 }
@@ -77,23 +75,6 @@ body {
   font-size: 1.2em;
 }
 
-// Form table
-table.form {
-  padding: 1em 0 1.4em 0;
-  width: 40em;
-  border: 1px #575b5f solid;
-  background: url('/images/table_form_background.png') repeat-y;
-}
-table.form tr td {
-  padding:0 0 0 0.8em ;
-}
-table.form tr th {
-  width:12em;
-  color:#fff;
-  text-align: right;
-}
-
-// User details
 #user_details {
   background: url('/images/user_details_background.png');
   float: right;
@@ -140,7 +121,21 @@ table.form tr th {
   background: url('/images/button_background_180.png');
 }
 
-// List table
+table.form {
+  padding: 1em 0 1.4em 0;
+  width: 40em;
+  border: 1px #575b5f solid;
+  background: url('/images/table_form_background.png') repeat-y;
+}
+table.form tr td {
+  padding:0 0 0 0.8em ;
+}
+table.form tr th {
+  width:12em;
+  color:#fff;
+  text-align: right;
+}
+
 table.list {
   background: url('/images/table_list_background.png') repeat-x;
   border: 1px #575b5f solid;
