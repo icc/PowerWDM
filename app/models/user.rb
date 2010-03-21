@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  has_many :domains, :dependent => :destroy 
+
   validate :must_be_invited
   validates_presence_of :name, :password
   validates_uniqueness_of :name

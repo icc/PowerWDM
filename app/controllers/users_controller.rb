@@ -16,7 +16,8 @@ class UsersController < ApplicationController
     @user = User.new params[:user]
     if @user.save
       flash[:success] = "Signup success!"
-      redirect_to "/login"
+      session[:user_id] = @user.id
+      redirect_to "/users"
     else
       render 'new'
     end
