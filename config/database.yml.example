@@ -1,23 +1,23 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: powerdms_development
+  database: powerwdm_development
   pool: 5
-  username: powerdms
+  username: powerwdm
   password:
 
 test:
   adapter: postgresql
   encoding: unicode
-  database: powerdms_test
+  database: powerwdm_test
   pool: 5
-  username: powerdms
+  username: powerwdm
   password:
 
 production:
   adapter: postgresql
   encoding: unicode
-  database: powerdms_production
+  database: powerdwm_production
   pool: 5
-  username: powerdms
+  username: powerwdm
   password:
