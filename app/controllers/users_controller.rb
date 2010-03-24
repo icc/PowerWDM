@@ -15,7 +15,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new params[:user]
     if @user.save
-      flash[:success] = "Signup success!"
+      flash[:success] = "Signup success, welcome."
       session[:user_id] = @user.id
       redirect_to "/users"
     else
@@ -53,9 +53,9 @@ class UsersController < ApplicationController
   def authenticate
     user = User.find_by_name params[:name] 
     if user and user.has_password? params[:password]
-      flash[:success] = "Login success!"
+      flash[:success] = "Login success, welcome."
       session[:user_id] = user.id 
-      redirect_to '/users'
+      redirect_to '/domains'
     else
       flash[:error] = "Invalid username and/or password."
       redirect_to "/login"

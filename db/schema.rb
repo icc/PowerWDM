@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(:version => 20100321114255) do
     t.string   "type",            :null => false
     t.integer  "notified_serial"
     t.string   "account"
-    t.integer  "user_id",         :null => false
+    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -45,3 +45,6 @@ button, input.button {position:relative;top:0.25em;}
 #demote.tooltip {
   background: url('/images/ie_tooltip_background_orange.png');
 }
+#manage.tooltip {
+  background: url('/images/ie_tooltip_background_blue.png');
+}

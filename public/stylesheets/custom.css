@@ -64,6 +64,9 @@ body {
 #demote.tooltip {
   background:rgba(231,149,92,0.7);
 }
+#manage.tooltip {
+  background:rgba(112,181,255,0.7);
+}
 
 #errorExplanation {
   margin: 0 0 0 1em;
@@ -78,8 +81,8 @@ body {
 #user_details {
   background: url('/images/user_details_background.png');
   float: right;
-  width: 40em;
-  padding: 1em 1em .5em 0;
+//  width: 44.75em;
+  padding: 1em 1em .5em 0em;
   -moz-border-radius:    .5em;
   -webkit-border-radius: .5em;
 }
@@ -98,8 +101,8 @@ body {
   color: #aaa;
 }
 #user_details ul {
-  float:right;
-  margin: 1.1em 1em .65em 0;
+  padding:0 5.8em 1.05em 0;
+  margin:1.1em 0 1.05em 0;
 }
 #user_details ul li {
   float: left;
@@ -166,4 +169,10 @@ table.list tr.header:hover{
 table.list tr td img {
   padding: 0.3em 0.3em 0 0.3em;
   margin:0;
+}
+table.list tr td.first {
+  padding: 0 0 0 1em;
+}
+table.list tr th.first {
+  padding: 0 0 0 1.4em;
 }

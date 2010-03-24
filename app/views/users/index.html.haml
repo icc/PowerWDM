@@ -58,20 +58,20 @@
           = f.submit "Invite"
         %td
 
-#delete.tooltip.round
-  %p Delete
-#promote.tooltip.round
-  %p Promote to admin
-#demote.tooltip.round
-  %p Demote to regular user
+  #delete.tooltip.round
+    %p Delete
+  #promote.tooltip.round
+    %p Promote to admin
+  #demote.tooltip.round
+    %p Demote to regular user
 
-:javascript
-  $$('.delete').each(function(n) {
-    new Tooltip(n, 'delete');
-  })
-  $$('.promote').each(function(n) {
-    new Tooltip(n, 'promote');
-  })
-  $$('.demote').each(function(n) {
-    new Tooltip(n, 'demote');
-  })
+  :javascript
+    $$('.delete').each(function(n) {
+      new Tooltip(n, 'delete');
+    })
+    $$('.promote').each(function(n) {
+      new Tooltip(n, 'promote');
+    })
+    $$('.demote').each(function(n) {
+      new Tooltip(n, 'demote');
+    })

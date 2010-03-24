@@ -7,7 +7,7 @@ class CreateDomains < ActiveRecord::Migration
       t.string :type, :null => false
       t.integer :notified_serial, :null => true
       t.string :account, :null => true
-      t.integer :user_id, :null => false
+      t.integer :user_id, :null => true
       t.timestamps
     end
     add_index(:domains, :name, :unique => true, :name => 'name_index')

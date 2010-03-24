@@ -23,7 +23,8 @@
           %ul
             - if @logged_in_user.role == 'admin'
               %li= link_to 'Manage users', '/users', {:class => 'round'}
-            %li= link_to 'Change password', {:id => @logged_in_user.pretty_url, :action => 'edit'}, {:class => 'round'}
+            %li= link_to 'Manage domains', '/domains', {:class => 'round'}
+            %li= link_to 'Change password', {:controller => 'users', :id => @logged_in_user.pretty_url, :action => 'edit'}, {:class => 'round'}
             %li= link_to 'Logout', '/logout', {:confirm => 'Are you sure you wish to logout?', :class => 'round'}
       #header
         %header

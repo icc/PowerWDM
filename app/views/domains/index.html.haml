@@ -1,0 +1,47 @@
+%h2 Domain list
+- form_for @domain, :url => { :action => "create" }  do |f|
+  = f.error_messages :header_message => "", :message => "There were problems with the following:"
+  %table.list.round
+    %tr.header
+      %th.first Name
+      %th Master
+      %th Type
+      - if @logged_in_user.role == 'admin'
+        %th Owner
+      %th 
+      %th
+    - @domains.each do |d|
+      %tr
+        %td.first= d.name
+        %td= d.master
+        %td= d.type.capitalize
+        - if @logged_in_user.role == 'admin'
+          %td= d.user.name unless d.user_id.nil?
+        %td.image_cell
+          %a{:href => "/domains/destroy/#{d.pretty_url}", :onclick => "return confirm('Delete domain #{d.name} and all its records?');"}
+            %img{:src => '/images/delete.png', :alt => 'Delete', :class => 'delete'}
+        %td.image_cell
+          %a{:href => "/domains/#{d.pretty_url}"}
+            %img{:src => '/images/manage.png', :alt => 'Manage', :class => 'manage'}
+    %tr
+      %td.first= f.text_field :name, :size => '50'
+      %td= f.text_field :master, :size => '15'
+      %td= f.select :type, options_for_select({ 'Master' => 'MASTER', 'Native' => 'NATIVE', 'Slave' => 'SLAVE'}, 'NATIVE')
+      - if @logged_in_user.role == 'admin'
+        %td= f.select :user_id, User.all.collect {|u| [u.name, u.id]}, :selected => @logged_in_user.id
+      %td
+      %td= f.submit "Add"
+
+ 
+#delete.tooltip.round
+  %p Delete
+#manage.tooltip.round
+  %p Manage
+
+:javascript
+  $$('.delete').each(function(n) {
+    new Tooltip(n, 'delete');
+  })
+  $$('.manage').each(function(n) {
+    new Tooltip(n, 'manage');
+  })
