@@ -13,7 +13,9 @@ ActionController::Routing::Routes.draw do |map|
   #   map.resources :products
 
   map.resources :users
-  map.resources :domains
+  map.resources :domains do |domain|
+    domain.resources :records
+  end
 
   # Sample resource route with options:
   #   map.resources :products, :member => { :short => :get, :toggle => :post }, :collection => { :sold => :get }

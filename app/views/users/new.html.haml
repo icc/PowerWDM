@@ -1,7 +1,6 @@
-%h2 Sign up!
+%h2 Sign up
 
 - form_for @user do |f|
-  = f.error_messages :header_message => "", :message => "There were problems with the following:"
   %table.form.round
     %tr
       %th
@@ -20,6 +19,7 @@
     %tr
       %th &nbsp;
       %td= f.submit "Sign up"
+  = f.error_messages :header_message => "", :message => "There were problems with the following:"
 
 %p
   Already have an account?

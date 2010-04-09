@@ -54,7 +54,9 @@ body {
 .tooltip p {
   margin:0;
 }
-
+.fieldWithErrors input {
+  background:#fe9191;
+}
 #delete.tooltip {
   background:rgba(253,99,99,0.7);
 }

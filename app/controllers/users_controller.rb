@@ -1,5 +1,8 @@
 class UsersController < ApplicationController
   layout 'standard'
+  before_filter :logged_in?, :except => [:new, :create, :login, :authenticate]
+  before_filter :redirect_logged_in, :only => [:new, :create, :login, :authenticate]
+  before_filter :admin?, :only => [:index, :destroy, :promote, :demote, :create_invite, :destroy_invite]
 
   def index
     @users = User.find :all
@@ -38,16 +41,13 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    if @logged_in_user.role == 'admin'
-      user = User.find params[:id]
-      User.delete user.id
-      flash['success'] = "User #{user.name} was successfully removed."
-    end
+    user = User.find params[:id]
+    user.destroy
+    flash['success'] = "User #{user.name} was successfully removed."
     redirect_to '/users'
   end
 
   def login
-    render 'login'
   end
 
   def authenticate
@@ -73,7 +73,7 @@ class UsersController < ApplicationController
     if @invite.save
       flash[:success] = "Invite success!"
       redirect_to '/users'
-    else
+    else 
       index
       render 'index'
     end
@@ -85,24 +85,31 @@ class UsersController < ApplicationController
   end
 
   def promote
-    if @logged_in_user.role == 'admin'
-      user = User.find params[:id] 
-      user.role = 'admin'
-      if user.save(false)
-        flash[:success] = "#{user.name} was successfully promoted to admin."
-      end
+    user = User.find params[:id] 
+    user.role = 'admin'
+    if user.save(false)
+      flash[:success] = "#{user.name} was successfully promoted to admin."
     end
     redirect_to '/users'
   end
 
   def demote
-    if @logged_in_user.role == 'admin'
-      user = User.find params[:id]
-      user.role = 'user'
-      if user.save(false)
-        flash[:success] = "#{user.name} was successfully demoted to regular user."
-      end
+    user = User.find params[:id]
+    user.role = 'user'
+    if user.save(false)
+      flash[:success] = "#{user.name} was successfully demoted to regular user."
     end
     redirect_to '/users'
   end
+
+  private
+    def logged_in?
+      redirect_to '/login' if @logged_in_user.nil?
+    end
+    def redirect_logged_in
+      redirect_to '/domains' unless @logged_in_user.nil?
+    end
+    def admin?
+      redirect_to '/domains' unless @logged_in_user.role == 'admin'
+    end
 end

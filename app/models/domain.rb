@@ -2,9 +2,8 @@ class Domain < ActiveRecord::Base
   set_inheritance_column :ruby_type
 
   belongs_to :user
-  has_many :records, :dependent => :destroy 
+  has_many :records, :dependent => :destroy, :order => 'name, created_at'
 
-  validates_associated :records
   validates_uniqueness_of :name
   validates_presence_of :name
   validates_format_of :name, :with => /^[a-z0-9]{1}[a-z0-9\.\-]*$/i
@@ -26,6 +25,11 @@ class Domain < ActiveRecord::Base
       self.master = "" unless self.type == "SLAVE"
     end
     def create_soa_record
-      
+      soa = Record.new
+      soa.domain_id = self.id
+      soa.name = self.name
+      soa.type = 'SOA'
+      soa.content = 'ns.' + self.name + ' hostmaster.' + self.name + ' 0 10800 3600 604800 3600'
+      soa.save
     end
 end

@@ -1,6 +1,8 @@
-%h2 Domain list
+- if @logged_in_user.role == 'admin'
+  %h2 Domains
+- else
+  %h2 Your domains
 - form_for @domain, :url => { :action => "create" }  do |f|
-  = f.error_messages :header_message => "", :message => "There were problems with the following:"
   %table.list.round
     %tr.header
       %th.first Name
@@ -18,20 +20,18 @@
         - if @logged_in_user.role == 'admin'
           %td= d.user.name unless d.user_id.nil?
         %td.image_cell
-          %a{:href => "/domains/destroy/#{d.pretty_url}", :onclick => "return confirm('Delete domain #{d.name} and all its records?');"}
-            %img{:src => '/images/delete.png', :alt => 'Delete', :class => 'delete'}
+          = link_to '<img src="/images/delete.png" alt="Delete" class="delete">', domain_url(:id => d.pretty_url), :method => :delete, :confirm => "Delete \"#{d.name}\" and all its records?"
         %td.image_cell
           %a{:href => "/domains/#{d.pretty_url}"}
             %img{:src => '/images/manage.png', :alt => 'Manage', :class => 'manage'}
-    %tr
+    %tr.last
       %td.first= f.text_field :name, :size => '50'
       %td= f.text_field :master, :size => '15'
       %td= f.select :type, options_for_select({ 'Master' => 'MASTER', 'Native' => 'NATIVE', 'Slave' => 'SLAVE'}, 'NATIVE')
       - if @logged_in_user.role == 'admin'
         %td= f.select :user_id, User.all.collect {|u| [u.name, u.id]}, :selected => @logged_in_user.id
-      %td
-      %td= f.submit "Add"
-
+      %td{:colspan => '2'}= f.submit "Add"
+  = f.error_messages :header_message => "", :message => "There were problems with the following:"
  
 #delete.tooltip.round
   %p Delete

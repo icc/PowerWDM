@@ -1,7 +1,6 @@
 %h2 Change password
 
 - form_for @logged_in_user do |f|
-  = f.error_messages :header_message => "", :message => "There were problems with the following:"
   %table.form.round
     %tr
       %th= f.label :password
@@ -12,4 +11,4 @@
     %tr
       %th &nbsp;
       %td= f.submit "Update"
-
+  = f.error_messages :header_message => "", :message => "There were problems with the following:"
