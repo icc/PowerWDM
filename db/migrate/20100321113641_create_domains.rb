@@ -11,9 +11,15 @@ class CreateDomains < ActiveRecord::Migration
       t.timestamps
     end
     add_index(:domains, :name, :unique => true, :name => 'name_index')
+    # Create custom reverse function
+    puts "create function reverse(text) returns text as $$"
+    puts "select case when length($1)>0"
+    puts "then substring($1, length($1), 1) || reverse(substring($1, 1, length($1)-1))"
+    puts "else '' end $$ language sql immutable strict;"
   end
 
   def self.down
     drop_table :domains
+    puts "drop function reverse"
   end
 end

@@ -11,22 +11,22 @@
       %th
     - for r in @records
       %tr
-        %td.first= r.name.gsub(/.#{r.domain.name}|#{r.domain.name}$/, '')
+        %td.first= fix_long_word(remove_domain_suffix(r.name, r.domain.name))
         %td IN
         %td= r.type
         %td= r.prio
-        %td= r.content
+        %td= fix_long_words(r.content)
         %td.image_cell
           = link_to '<img src="/images/delete.png" alt="Delete" class="delete">', "/domains/#{r.domain.pretty_url}/records/#{r.pretty_url}", :method => :delete, :confirm => "Delete \"#{r.name} IN #{r.type} #{r.content}\"?"
         %td.image_cell
           %a{:href => "/domains/#{r.domain.pretty_url}/record/#{r.pretty_url}/edit"}
             %img{:src => '/images/manage2.png', :alt => 'Modify', :class => 'manage'}
     %tr.last
-      %td.first= f.text_field :name, :size => '50'
+      %td.first= f.text_field :name, :size => '54'
       %td IN
       %td= f.select :type, options_for_select(['SOA', 'NS', 'MX', 'A', 'AAAA', 'CNAME', 'TXT', 'PTR', 'HWINFO', 'SRV', 'NAPTR'], 'A')
       %td= f.text_field :prio, :size => '4'
-      %td= f.text_field :content, :size => '50'
+      %td= f.text_field :content, :size => '54'
       %td{:colspan => '2'}= f.submit "Add"
   = f.error_messages :header_message => "", :message => "There were problems with the following:" 
 

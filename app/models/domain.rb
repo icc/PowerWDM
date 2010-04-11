@@ -2,7 +2,7 @@ class Domain < ActiveRecord::Base
   set_inheritance_column :ruby_type
 
   belongs_to :user
-  has_many :records, :dependent => :destroy, :order => 'name, created_at'
+  has_many :records, :dependent => :destroy, :order => 'REVERSE(name), created_at'
 
   validates_uniqueness_of :name
   validates_presence_of :name
