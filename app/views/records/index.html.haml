@@ -1,5 +1,5 @@
 %h2= "Records for #{@domain.name}"
-- form_for @record, :url => { :action => "create" }  do |f|
+- form_for [@domain, @record] do |f|
   %table.list.round
     %tr.header
       %th.first Name
@@ -11,34 +11,42 @@
       %th
     - for r in @records
       %tr
-        %td.first= fix_long_word(remove_domain_suffix(r.name, r.domain.name))
+        %td.first= fix_long_word(r.name_without_domain_suffix)
         %td IN
         %td= r.type
         %td= r.prio
         %td= fix_long_words(r.content)
         %td.image_cell
-          = link_to '<img src="/images/delete.png" alt="Delete" class="delete">', "/domains/#{r.domain.pretty_url}/records/#{r.pretty_url}", :method => :delete, :confirm => "Delete \"#{r.name} IN #{r.type} #{r.content}\"?"
+          = link_to image_tag('delete.png', :alt => 'Delete', :class => 'delete'), domain_record_url(:id => r.pretty_url), |
+                    :method => :delete, :confirm => "Delete \"#{r.name} IN #{r.type} #{r.content}\"?" |
         %td.image_cell
-          %a{:href => "/domains/#{r.domain.pretty_url}/record/#{r.pretty_url}/edit"}
-            %img{:src => '/images/manage2.png', :alt => 'Modify', :class => 'manage'}
+          = link_to image_tag('modify.png', :alt => 'Modify', :class => 'modify'), edit_domain_record_url(:id => r.pretty_url)
     %tr.last
-      %td.first= f.text_field :name, :size => '54'
+      %td.first= f.text_field :name, :size => '50'
       %td IN
-      %td= f.select :type, options_for_select(['SOA', 'NS', 'MX', 'A', 'AAAA', 'CNAME', 'TXT', 'PTR', 'HWINFO', 'SRV', 'NAPTR'], 'A')
+      %td= f.select :type, options_for_select(['SOA', 'NS', 'MX', 'A', 'AAAA', 'CNAME', 'TXT', 'PTR', 'HWINFO', 'SRV', 'NAPTR'], selected?)
       %td= f.text_field :prio, :size => '4'
-      %td= f.text_field :content, :size => '54'
-      %td{:colspan => '2'}= f.submit "Add"
+      %td{:colspan => '3'}
+        %table.inner
+          %tr
+            - if params[:action] == 'edit' or params[:action] == 'update'
+              %td= f.text_field :content, :size => '50'
+              %td= f.submit "Save"
+              %td= f.submit "Cancel"
+            - else
+              %td= f.text_field :content, :size => '63'
+              %td= f.submit "Add", :class => 'add'
   = f.error_messages :header_message => "", :message => "There were problems with the following:" 
 
 #delete.tooltip.round
   %p Delete
-#manage.tooltip.round
+#modify.tooltip.round
   %p Modify
 
 :javascript
   $$('.delete').each(function(n) {
     new Tooltip(n, 'delete');
   })
-  $$('.manage').each(function(n) {
-    new Tooltip(n, 'manage');
+  $$('.modify').each(function(n) {
+    new Tooltip(n, 'modify');
   })

@@ -1,9 +1,5 @@
 module RecordsHelper
 
-  def remove_domain_suffix(name, domain)
-    name.gsub(/.#{domain}|#{domain}$/, '')
-  end
-
   def fix_long_word(word)
     i = 50
     while word.size > i
@@ -19,6 +15,14 @@ module RecordsHelper
       fix_long_word(word)
     end
     words.join(' ')
+  end
+
+  def selected?
+    if @record.type.nil?
+      'A'
+    else
+      @record.type
+    end
   end
 
 end

@@ -20,7 +20,7 @@ class UsersController < ApplicationController
     if @user.save
       flash[:success] = "Signup success, welcome."
       session[:user_id] = @user.id
-      redirect_to "/users"
+      redirect_to users_url()
     else
       render 'new'
     end
@@ -34,7 +34,7 @@ class UsersController < ApplicationController
     @logged_in_user.password_confirmation = params[:user][:password_confirmation]
     if @logged_in_user.save
       flash[:success] = "Password changed."
-      redirect_to "/users"
+      redirect_to users_url()
     else
       render 'edit'
     end
@@ -44,7 +44,7 @@ class UsersController < ApplicationController
     user = User.find params[:id]
     user.destroy
     flash['success'] = "User #{user.name} was successfully removed."
-    redirect_to '/users'
+    redirect_to users_url()
   end
 
   def login
@@ -55,7 +55,7 @@ class UsersController < ApplicationController
     if user and user.has_password? params[:password]
       flash[:success] = "Login success, welcome."
       session[:user_id] = user.id 
-      redirect_to '/domains'
+      redirect_to domains_url()
     else
       flash[:error] = "Invalid username and/or password."
       redirect_to "/login"
@@ -81,7 +81,7 @@ class UsersController < ApplicationController
 
   def destroy_invite
     Invite.delete params[:id]
-    redirect_to '/users'
+    redirect_to users_url()
   end
 
   def promote
@@ -90,7 +90,7 @@ class UsersController < ApplicationController
     if user.save(false)
       flash[:success] = "#{user.name} was successfully promoted to admin."
     end
-    redirect_to '/users'
+    redirect_to users_url()
   end
 
   def demote
@@ -99,7 +99,7 @@ class UsersController < ApplicationController
     if user.save(false)
       flash[:success] = "#{user.name} was successfully demoted to regular user."
     end
-    redirect_to '/users'
+    redirect_to users_url()
   end
 
   private
@@ -107,9 +107,9 @@ class UsersController < ApplicationController
       redirect_to '/login' if @logged_in_user.nil?
     end
     def redirect_logged_in
-      redirect_to '/domains' unless @logged_in_user.nil?
+      redirect_to domains_url() unless @logged_in_user.nil?
     end
     def admin?
-      redirect_to '/domains' unless @logged_in_user.role == 'admin'
+      redirect_to domains_url() unless @logged_in_user.role == 'admin'
     end
 end

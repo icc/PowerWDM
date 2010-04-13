@@ -14,7 +14,7 @@ class Domain < ActiveRecord::Base
   validates_format_of :type, :with => /^(NATIVE|MASTER|SLAVE)$/
 
   before_validation :check_type
-  after_save :create_soa_record
+  after_create :create_soa_record
 
   def pretty_url
     "#{id}-#{name.parameterize}"

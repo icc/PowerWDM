@@ -1,10 +1,15 @@
 class RecordsController < ApplicationController
   layout 'standard'
   before_filter :my_domain?
+  before_filter :cancel?, :only => :update
 
   def index
     @records = @domain.records
-    @record = Record.new unless @record
+    if @record.nil?
+      @record = Record.new 
+    else 
+      @record.remove_domain_suffix
+    end
   end
 
   def create
@@ -12,23 +17,42 @@ class RecordsController < ApplicationController
     @record.domain_id = params[:domain_id].to_i
     if @record.save
       flash[:success] = "Record added to domain."
-      redirect_to "/domains/#{params[:domain_id]}/records"
+      redirect_to domain_records_url(:domain_id => @domain.pretty_url)
     else
       index
       render 'index'
     end
   end
 
+  def edit
+    @record = Record.find params[:id] unless @record
+    index
+    render 'index'
+  end
+
+  def update
+    @record = Record.find params[:id]
+    if @record.update_attributes(params[:record])
+      flash[:success] = "Record updated successfully."
+      redirect_to domain_records_url(:domain_id => @domain.pretty_url)
+    else    
+      edit
+    end
+  end
+
   def destroy
     record = Record.find params[:id]
-    Record.delete record.id
+    record.destroy
     flash['success'] = "Record was successfully removed."
-    redirect_to "/domains/#{record.domain.pretty_url}/records/"
+    redirect_to domain_records_url(:domain_id => @domain.pretty_url)
   end
 
   private
     def my_domain?
       @domain = Domain.find params[:domain_id].to_i
-      redirect_to '/domains' if @logged_in_user.id != @domain.user_id and @logged_in_user.role != 'admin'
+      redirect_to domains_url() if @logged_in_user.id != @domain.user_id and @logged_in_user.role != 'admin'
+    end
+    def cancel?
+      redirect_to domain_records_url(:domain_id => @domain.pretty_url) if params[:commit] == 'Cancel'
     end
 end

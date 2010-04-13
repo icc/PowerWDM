@@ -2,7 +2,7 @@
   %h2 Domains
 - else
   %h2 Your domains
-- form_for @domain, :url => { :action => "create" }  do |f|
+- form_for @domain do |f|
   %table.list.round
     %tr.header
       %th.first Name
@@ -20,27 +20,39 @@
         - if @logged_in_user.role == 'admin'
           %td= d.user.name unless d.user_id.nil?
         %td.image_cell
-          = link_to '<img src="/images/delete.png" alt="Delete" class="delete">', domain_url(:id => d.pretty_url), :method => :delete, :confirm => "Delete \"#{d.name}\" and all its records?"
+          = link_to image_tag('delete.png', :alt => 'Delete', :class => 'delete'), domain_url(:id => d.pretty_url), |
+                    :method => :delete, :confirm => "Delete \"#{d.name}\" and all its records?" |
         %td.image_cell
-          %a{:href => "/domains/#{d.pretty_url}"}
-            %img{:src => '/images/manage.png', :alt => 'Manage', :class => 'manage'}
+          = link_to image_tag('modify.png', :alt => 'Modify', :class => 'modify'), edit_domain_url(:id => d.pretty_url)
+        %td.image_cell
+          = link_to image_tag('manage.png', :alt => 'Manage', :class => 'manage'), domain_records_url(:domain_id => d.pretty_url)
     %tr.last
       %td.first= f.text_field :name, :size => '50'
       %td= f.text_field :master, :size => '15'
       %td= f.select :type, options_for_select({ 'Master' => 'MASTER', 'Native' => 'NATIVE', 'Slave' => 'SLAVE'}, 'NATIVE')
       - if @logged_in_user.role == 'admin'
         %td= f.select :user_id, User.all.collect {|u| [u.name, u.id]}, :selected => @logged_in_user.id
-      %td{:colspan => '2'}= f.submit "Add"
+      %td.buttons{:colspan => '3'}
+        - if params[:action] == 'edit' or params[:action] == 'update'
+          = f.submit "Save"
+          = f.submit "Cancel"
+        - else
+          = f.submit "Add"
   = f.error_messages :header_message => "", :message => "There were problems with the following:"
  
 #delete.tooltip.round
   %p Delete
+#modify.tooltip.round
+  %p Modify
 #manage.tooltip.round
   %p Manage
 
 :javascript
   $$('.delete').each(function(n) {
     new Tooltip(n, 'delete');
+  })
+  $$('.modify').each(function(n) {
+    new Tooltip(n, 'modify');
   })
   $$('.manage').each(function(n) {
     new Tooltip(n, 'manage');

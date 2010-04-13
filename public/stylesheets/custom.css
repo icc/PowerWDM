@@ -66,6 +66,9 @@ body {
 #demote.tooltip {
   background:rgba(231,149,92,0.7);
 }
+#modify.tooltip {
+  background:rgba(112,181,255,0.7);
+}
 #manage.tooltip {
   background:rgba(112,181,255,0.7);
 }
@@ -83,7 +86,6 @@ body {
 #user_details {
   background: url('/images/user_details_background.png');
   float: right;
-//  width: 44.75em;
   padding: 1em 1em .5em 0em;
   -moz-border-radius:    .5em;
   -webkit-border-radius: .5em;
@@ -174,6 +176,14 @@ table.list tr td img {
 }
 table.list tr td.first {
   padding: 0 0 0 1em;
+}
+table.inner {
+  margin:0;
+}
+table.list tr td.buttons {
+  width: 11em;
+  text-align:right;
+  padding: 0 0.5em 0 0;
 }
 table.list tr th.first {
   padding: 0 0 0 1.4em;
