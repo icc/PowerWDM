@@ -17,7 +17,7 @@ test:
 production:
   adapter: postgresql
   encoding: unicode
-  database: powerdwm_production
+  database: powerwdm_production
   pool: 5
   username: powerwdm
   password:
