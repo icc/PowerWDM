@@ -7,7 +7,7 @@
     %th
     %th
   - @users.each do |u|
-    - if @users.last == u then puts '<tr class="last">' else puts "<tr>" end
+    - if @users.last == u then haml_concat '<tr class="last">' else haml_concat "<tr>" end
     %td.image_cell= gravatar_for u, :size => '30'
     %td.name_cell= u.name
     %td.role_cell= u.role.capitalize
@@ -32,7 +32,7 @@
     - else
       %td.image_cell
       %td.image_cell
-    - puts '</tr>'
+    - haml_concat '</tr>'
 
 - if @logged_in_user.role == 'admin'
   %h2 Invites
