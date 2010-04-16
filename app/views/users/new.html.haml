@@ -12,10 +12,10 @@
       %td= f.text_field :name
     %tr
       %th= f.label :password
-      %td= f.password_field :password
+      %td= f.password_field :password, :value => ''
     %tr
       %th= f.label :password_confirmation
-      %td= f.password_field :password_confirmation
+      %td= f.password_field :password_confirmation, :value => ''
     %tr
       %th &nbsp;
       %td= f.submit "Sign up"
