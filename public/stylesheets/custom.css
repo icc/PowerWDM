@@ -180,10 +180,8 @@ table.list tr td.first {
 table.inner {
   margin:0;
 }
-table.list tr td.buttons {
-  width: 11em;
-  text-align:right;
-  padding: 0 0.5em 0 0;
+table.inner tr td {
+  text-align: right;
 }
 table.list tr th.first {
   padding: 0 0 0 1.4em;

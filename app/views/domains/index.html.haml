@@ -32,12 +32,14 @@
       %td= f.select :type, options_for_select({ 'Master' => 'MASTER', 'Native' => 'NATIVE', 'Slave' => 'SLAVE'}, 'NATIVE')
       - if @logged_in_user.role == 'admin'
         %td= f.select :user_id, User.all.collect {|u| [u.name, u.id]}, :selected => @logged_in_user.id
-      %td.buttons{:colspan => '3'}
-        - if params[:action] == 'edit' or params[:action] == 'update'
-          = f.submit "Save"
-          = f.submit "Cancel"
-        - else
-          = f.submit "Add"
+      %td{:colspan => '3'}
+        %table.inner
+          %tr
+            - if params[:action] == 'edit' or params[:action] == 'update'
+              %td= f.submit "Save"
+              %td= f.submit "Cancel"
+            - else
+              %td= f.submit "Add"
   = f.error_messages :header_message => "", :message => "There were problems with the following:"
  
 #delete.tooltip.round
