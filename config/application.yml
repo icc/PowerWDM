@@ -8,10 +8,8 @@
 #   _domain_name_ is the name of the newly created domain.
 #
 name_servers:
-  - name: ns._domain_name_
-    ip: 192.168.0.1
-  - name: ns2._domain_name_
-    ip: 192.168.0.2
+  - ns._domain_name_
+  - ns2._domain_name_
 
 ## Default SOA-record
 #
