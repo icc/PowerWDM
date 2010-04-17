@@ -53,10 +53,12 @@
       %tr.last
         %td
         %td
-          = f.error_messages :header_message => "", :message => "There were problems with the following:"
-          = f.text_field :name
-          = f.submit "Invite"
+          %table.inner_invite
+            %tr
+              %td= f.text_field :name
+              %td= f.submit "Invite"
         %td
+    = f.error_messages :header_message => "", :message => "There were problems with the following:"
 
   #delete.tooltip.round
     %p Delete

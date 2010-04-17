@@ -177,11 +177,13 @@ table.list tr td img {
 table.list tr td.first {
   padding: 0 0 0 1em;
 }
-table.inner {
+table.inner_right {
   margin:0;
-}
-table.inner tr td {
   text-align: right;
+}
+table.inner_invite {
+  margin:0;
+  width: 22em;
 }
 table.list tr th.first {
   padding: 0 0 0 1.4em;

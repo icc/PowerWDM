@@ -27,7 +27,7 @@
       %td= f.select :type, options_for_select(['SOA', 'NS', 'MX', 'A', 'AAAA', 'CNAME', 'TXT', 'PTR', 'HWINFO', 'SRV', 'NAPTR'], selected?)
       %td= f.text_field :prio, :size => '4'
       %td{:colspan => '3'}
-        %table.inner
+        %table.inner_right
           %tr
             - if params[:action] == 'edit' or params[:action] == 'update'
               %td= f.text_field :content, :size => '50'

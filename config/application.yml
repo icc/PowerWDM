@@ -1,0 +1,32 @@
+# Application specific configuration
+
+## Default name servers to use for a new domain. 
+#
+# IP is optional, no name servers equals no default SOA record.
+#
+# Variables:
+#   _domain_name_ is the name of the newly created domain.
+#
+name_servers:
+  - name: ns._domain_name_
+    ip: 192.168.0.1
+  - name: ns2._domain_name_
+    ip: 192.168.0.2
+
+## Default SOA-record
+#
+# If serial is 0, the latest change_date of a record will be used as serial.
+# (in short: you don't have to worry about changing the serial)
+#
+# Variables:
+#   _first_name_server_ is the first name server in the list you created above.
+#   _user_name_ is the e-mail of the domains owner.
+#
+soa_record:
+  primary: _first_name_server_
+  hostmaster: _user_name_
+  serial: 0 
+  refresh: 10800 # 3 hours
+  retry: 3600 # 1 hour
+  expire: 604800 # 1 week
+  default_ttl: 3600 # 1 hour

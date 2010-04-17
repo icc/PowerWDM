@@ -14,3 +14,4 @@ end
 
 Haml::Template.options[:format] = :html5
 Haml::Template.options[:attr_wrapper] = '"'
+APP_CONFIG = YAML.load_file("#{RAILS_ROOT}/config/application.yml")

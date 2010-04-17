@@ -33,7 +33,7 @@
       - if @logged_in_user.role == 'admin'
         %td= f.select :user_id, User.all.collect {|u| [u.name, u.id]}, :selected => selected?
       %td{:colspan => '3'}
-        %table.inner
+        %table.inner_right
           %tr
             - if params[:action] == 'edit' or params[:action] == 'update'
               %td= f.submit "Save"

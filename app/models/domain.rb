@@ -14,7 +14,7 @@ class Domain < ActiveRecord::Base
   validates_format_of :type, :with => /^(NATIVE|MASTER|SLAVE)$/
 
   before_validation :check_type
-  after_create :create_soa_record
+  after_create :create_soa_record if :config_valid?
 
   def pretty_url
     "#{id}-#{name.parameterize}"
@@ -29,7 +29,40 @@ class Domain < ActiveRecord::Base
       soa.domain_id = self.id
       soa.name = self.name
       soa.type = 'SOA'
-      soa.content = 'ns.' + self.name + ' hostmaster.' + self.name + ' 0 10800 3600 604800 3600'
+      first_name_server = APP_CONFIG['name_servers'].first.gsub(/\_domain\_name\_$/, self.name)
+      soa.content = APP_CONFIG['soa_record']['primary'].gsub(/^\_first\_name\_server\_$/, first_name_server) + ' '
+      soa.content += APP_CONFIG['soa_record']['hostmaster'].gsub(/^\_user\_name\_$/, self.user.name.gsub(/\@/, '.')) + ' '
+      soa.content += APP_CONFIG['soa_record']['serial'].to_s + ' '
+      soa.content += APP_CONFIG['soa_record']['refresh'].to_s + ' '
+      soa.content += APP_CONFIG['soa_record']['retry'].to_s + ' '
+      soa.content += APP_CONFIG['soa_record']['expire'].to_s + ' '
+      soa.content += APP_CONFIG['soa_record']['default_ttl'].to_s
       soa.save
+      for name_server in APP_CONFIG['name_servers']
+        create_ns_record(name_server.gsub(/\_domain\_name\_$/, self.name))
+      end
+    end
+    def create_ns_record(content)
+      ns = Record.new
+      ns.domain_id = self.id
+      ns.name = self.name
+      ns.type = 'NS'
+      ns.content = content
+      ns.save
+    end
+    def config_valid?
+      if APP_CONFIG['name_servers'].nil? or
+         APP_CONFIG['name_servers'].first.nil? or
+         APP_CONFIG['soa_record'].nil? or
+         APP_CONFIG['soa_record']['primary'].nil? or
+         APP_CONFIG['soa_record']['hostmaster'].nil? or
+         APP_CONFIG['soa_record']['serial'].nil? or
+         APP_CONFIG['soa_record']['refresh'].nil? or
+         APP_CONFIG['soa_record']['retry'].nil? or
+         APP_CONFIG['soa_record']['expire'].nil? or
+         APP_CONFIG['soa_record']['default_ttl'].nil?
+        return false
+      end
+      return true
     end
 end
