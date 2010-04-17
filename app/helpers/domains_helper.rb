@@ -1,9 +1,7 @@
 module DomainsHelper
-  def selected?
-    if @domain.user_id.nil?
-      @logged_in_user.id
-    else
-      @domain.user_id
-    end
+  def owner
+    @domain.user_id
+  rescue
+    @logged_in_user.id
   end
 end
