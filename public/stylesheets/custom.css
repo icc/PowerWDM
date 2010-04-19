@@ -164,11 +164,8 @@ table.list tr td.role_cell {
 table.list tr td.image_cell {
   width:3.1em;
 }
-table.list tr:hover {
-  background:#cbe1ff;
-}
-table.list tr.header:hover{
-  background:none;
+table.list tr.selected {
+  background: #cbe1ff;
 }
 table.list tr td img {
   padding: 0.3em 0.3em 0 0.3em;
@@ -177,12 +174,13 @@ table.list tr td img {
 table.list tr td.first {
   padding: 0 0 0 1em;
 }
-table.inner_right {
+table.inner {
   margin:0;
+}
+table.inner.content_right {
   text-align: right;
 }
-table.inner_invite {
-  margin:0;
+table.inner.content_invite {
   width: 22em;
 }
 table.list tr th.first {

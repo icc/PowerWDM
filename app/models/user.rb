@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   has_many :domains, :dependent => :destroy 
+  attr_accessor :current_password
 
   validate :must_be_invited
   validates_presence_of :name, :password
@@ -8,8 +9,9 @@ class User < ActiveRecord::Base
   validates_format_of :name, :with => /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates_length_of :name, :maximum => 255
   validates_length_of :password, :within => 6..40
+  validate_on_update :old_password
 
-  after_validation :encrypt_password
+  after_validation :set_password
   before_create :set_role
   before_create :remove_invite
 
@@ -22,11 +24,11 @@ class User < ActiveRecord::Base
   end
 
   def has_password?(p)
-    if p == ""
-      false
-    else
-      password == encrypt_password(p)
-    end
+    password == encrypt_password(p)
+  end
+
+  def first_user?
+    id == User.find(:first, :order => 'created_at').id
   end
 
   private
@@ -34,10 +36,18 @@ class User < ActiveRecord::Base
       errors.add_to_base("You're not invited.") if role.nil? and !Invite.find_by_name(name) and User.find(:all).size > 0
     end
 
-    def encrypt_password(p = password)
+    def old_password
+      errors.add :current_password, 'is wrong.' unless User.find(id).has_password?(current_password)
+    end
+
+    def encrypt_password(p)
       self.created_at = Time.now if created_at.nil?
-      self.password = Digest::SHA2.hexdigest(created_at.to_s.reverse + p[0..3] + created_at.to_f.to_s + p[-p.length+4..-1] + created_at.to_i.to_s.reverse)
+      Digest::SHA2.hexdigest(created_at.to_s.reverse + p[0..3] + created_at.to_f.to_s + p[-p.length+4..-1] + created_at.to_i.to_s.reverse)
     rescue
+    end
+
+    def set_password(p = password)
+      self.password = encrypt_password(p)
     end
 
     def set_role

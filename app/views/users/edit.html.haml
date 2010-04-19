@@ -3,6 +3,9 @@
 - form_for @logged_in_user do |f|
   %table.form.round
     %tr
+      %th= f.label :current_password
+      %td= f.password_field :current_password, :value => ''
+    %tr
       %th= f.label :password
       %td= f.password_field :password, :value => ''
     %tr

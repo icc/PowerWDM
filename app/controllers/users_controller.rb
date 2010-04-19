@@ -3,9 +3,10 @@ class UsersController < ApplicationController
   before_filter :logged_in?, :except => [:new, :create, :login, :authenticate]
   before_filter :redirect_logged_in, :only => [:new, :create, :login, :authenticate]
   before_filter :admin?, :only => [:index, :destroy, :promote, :demote, :create_invite, :destroy_invite]
+  before_filter :first_user?, :only => [:destroy, :demote]
 
   def index
-    @users = User.find :all
+    @users = User.find :all, :order => 'created_at'
     @invites = Invite.find :all
 
     @invite = Invite.new unless @invite
@@ -20,7 +21,7 @@ class UsersController < ApplicationController
     if @user.save
       flash[:success] = "Signup success, welcome."
       session[:user_id] = @user.id
-      redirect_to users_url()
+      redirect_to domains_url()
     else
       render 'new'
     end
@@ -29,21 +30,18 @@ class UsersController < ApplicationController
   def edit
   end
 
-  def update
-    @logged_in_user.password = params[:user][:password]
-    @logged_in_user.password_confirmation = params[:user][:password_confirmation]
-    if @logged_in_user.save
+  def update    
+    if @logged_in_user.update_attributes(params[:user])
       flash[:success] = "Password changed."
-      redirect_to users_url()
+      redirect_to domains_url()
     else
       render 'edit'
     end
   end
 
   def destroy
-    user = User.find params[:id]
-    user.destroy
-    flash['success'] = "User #{user.name} was successfully removed."
+    @user.destroy
+    flash['success'] = "User #{@user.name} was successfully removed."
     redirect_to users_url()
   end
 
@@ -94,10 +92,9 @@ class UsersController < ApplicationController
   end
 
   def demote
-    user = User.find params[:id]
-    user.role = 'user'
-    if user.save(false)
-      flash[:success] = "#{user.name} was successfully demoted to regular user."
+    @user.role = 'user'
+    if @user.save(false)
+      flash[:success] = "#{@user.name} was successfully demoted to regular user."
     end
     redirect_to users_url()
   end
@@ -111,5 +108,9 @@ class UsersController < ApplicationController
     end
     def admin?
       redirect_to domains_url() unless @logged_in_user.role == 'admin'
+    end
+    def first_user?
+      @user = User.find params[:id]
+      redirect_to users_url() if @user.first_user?
     end
 end

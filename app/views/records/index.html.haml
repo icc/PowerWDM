@@ -10,32 +10,34 @@
       %th
       %th
     - for r in @records
-      %tr
-        %td.first= fix_long_word(r.name_without_domain_suffix)
-        %td IN
-        %td= r.type
-        %td= r.prio
-        %td= fix_long_words(r.content)
-        %td.image_cell
-          = link_to image_tag('delete.png', :alt => 'Delete', :class => 'delete'), domain_record_url(:id => r.pretty_url), |
-                    :method => :delete, :confirm => "Delete \"#{r.name} IN #{r.type} #{r.content}\"?" |
-        %td.image_cell
-          = link_to image_tag('modify.png', :alt => 'Modify', :class => 'modify'), edit_domain_record_url(:id => r.pretty_url)
-    %tr.last
-      %td.first= f.text_field :name, :size => '50'
+      - if r == @record then haml_concat '<tr class="selected">' else haml_concat "<tr>" end
+      %td.first= fix_long_word(r.name_without_domain_suffix)
       %td IN
-      %td= f.select :type, options_for_select(['SOA', 'NS', 'MX', 'A', 'AAAA', 'CNAME', 'TXT', 'PTR', 'HWINFO', 'SRV', 'NAPTR'], selected?)
-      %td= f.text_field :prio, :size => '4'
-      %td{:colspan => '3'}
-        %table.inner_right
-          %tr
-            - if params[:action] == 'edit' or params[:action] == 'update'
-              %td= f.text_field :content, :size => '50'
-              %td= f.submit "Save"
-              %td= f.submit "Cancel"
-            - else
-              %td= f.text_field :content, :size => '63'
-              %td= f.submit "Add", :class => 'add'
+      %td= r.type
+      %td= r.prio
+      %td= fix_long_words(r.content)
+      %td.image_cell
+        = link_to image_tag('delete.png', :alt => 'Delete', :class => 'delete'), domain_record_url(:id => r.pretty_url), |
+                  :method => :delete, :confirm => "Delete \"#{r.name} IN #{r.type} #{r.content}\"?" |
+      %td.image_cell
+        = link_to image_tag('modify.png', :alt => 'Modify', :class => 'modify'), edit_domain_record_url(:id => r.pretty_url)
+      - haml_concat '</tr>'
+    - unless @record.id.nil? then haml_concat '<tr class="last selected">' else haml_concat '<tr class="last">' end
+    %td.first= f.text_field :name, :size => '40'
+    %td IN
+    %td= f.select :type, options_for_select(['SOA', 'NS', 'MX', 'A', 'AAAA', 'CNAME', 'TXT', 'PTR', 'HWINFO', 'SRV', 'NAPTR'], selected?)
+    %td= f.text_field :prio, :size => '4'
+    %td{:colspan => '3'}
+      %table.inner.content_right
+        %tr
+          - if params[:action] == 'edit' or params[:action] == 'update'
+            %td= f.text_field :content, :size => '40'
+            %td= f.submit "Save"
+            %td= f.submit "Cancel"
+          - else
+            %td= f.text_field :content, :size => '50'
+            %td= f.submit "Add", :class => 'add'
+    - haml_concat '</tr>'
   = f.error_messages :header_message => "", :message => "There were problems with the following:" 
 
 #delete.tooltip.round

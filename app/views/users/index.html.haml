@@ -11,27 +11,23 @@
     %td.image_cell= gravatar_for u, :size => '30'
     %td.name_cell= u.name
     %td.role_cell= u.role.capitalize
-    - if @logged_in_user.role == 'admin'
-      - if u.id == @logged_in_user.id
+    - if u.id == @logged_in_user.id or u.id == @users.first.id
+      %td.image_cell
+    - else
+      - if u.role == "admin"
         %td.image_cell
-      - else
-        - if u.role == "admin"
-          %td.image_cell
-            %a{:href => "/users/demote/#{u.pretty_url}", :onclick => "return confirm('Demote #{u.name} to regular user?');"}
-              %img{:src => '/images/demote.png', :alt => 'Demote', :class => 'demote'}
-        - else
-          %td.image_cell
-            %a{:href => "/users/promote/#{u.pretty_url}", :onclick => "return confirm('Promote #{u.name} to admin?');"}
-              %img{:src => '/images/promote.png', :alt => 'Promote', :class => 'promote'}
-      - if u.id == @logged_in_user.id
-        %td.image_cell
+          %a{:href => "/users/demote/#{u.pretty_url}", :onclick => "return confirm('Demote #{u.name} to regular user?');"}
+            %img{:src => '/images/demote.png', :alt => 'Demote', :class => 'demote'}
       - else
         %td.image_cell
-          %a{:href => "/users/destroy/#{u.pretty_url}", :onclick => "return confirm('Delete user #{u.name}?');"}
-            %img{:src => '/images/delete.png', :alt => 'Delete', :class => 'delete'}
+          %a{:href => "/users/promote/#{u.pretty_url}", :onclick => "return confirm('Promote #{u.name} to admin?');"}
+            %img{:src => '/images/promote.png', :alt => 'Promote', :class => 'promote'}
+    - if u.id == @logged_in_user.id or u.id == @users.first.id
+      %td.image_cell
     - else
       %td.image_cell
-      %td.image_cell
+        %a{:href => "/users/destroy/#{u.pretty_url}", :onclick => "return confirm('Delete user #{u.name}?');"}
+          %img{:src => '/images/delete.png', :alt => 'Delete', :class => 'delete'}
     - haml_concat '</tr>'
 
 - if @logged_in_user.role == 'admin'
@@ -53,7 +49,7 @@
       %tr.last
         %td
         %td
-          %table.inner_invite
+          %table.inner.content_invite
             %tr
               %td= f.text_field :name
               %td= f.submit "Invite"
