@@ -1,5 +1,11 @@
 # Application specific configuration
 
+## HTTPS settings
+#
+# Choose from none/all/user_data_only
+#
+https: user_data_only
+
 ## Default name servers to use for a new domain. 
 #
 # IP is optional, no name servers equals no default SOA record.

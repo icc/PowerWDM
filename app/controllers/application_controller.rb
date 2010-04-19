@@ -4,6 +4,7 @@
 class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
+  before_filter :check_https
   before_filter :find_logged_in_user
   before_filter :logged_in?, :except => :users
 
@@ -11,6 +12,9 @@ class ApplicationController < ActionController::Base
   filter_parameter_logging :password
 
   private
+    def check_https
+      redirect_to :protocol => 'https' if !request.ssl? and APP_CONFIG['https'] == 'all' and RAILS_ENV == 'production'
+    end
     def find_logged_in_user
       if session[:user_id]
         @logged_in_user = User.find session[:user_id]

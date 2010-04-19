@@ -1,5 +1,5 @@
 %h2 Login
-- form_tag '/users/authenticate' do
+- form_tag url_for(:action => 'authenticate', :controller => 'users', :only_path => false, :protocol => protocol)  do
   %table.form.round
     %tr
       %th
@@ -18,3 +18,4 @@
 %p
   Don't have a user account yet?
   = link_to 'Sign up!', '/signup'
+

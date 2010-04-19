@@ -1,6 +1,5 @@
 %h2 Change password
-
-- form_for @logged_in_user do |f|
+- form_for @logged_in_user, :url => {:id => @logged_in_user.id, :action => 'update', :controller => 'users', :only_path => false, :protocol => protocol} do |f|
   %table.form.round
     %tr
       %th= f.label :current_password
