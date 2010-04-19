@@ -28,14 +28,29 @@ class UsersController < ApplicationController
   end
 
   def edit
+    if flash[:invalid_attrs] and flash[:invalid_msgs]
+      flash[:invalid_attrs].size.times do |i|
+        @logged_in_user.errors.add(flash[:invalid_attrs][i], flash[:invalid_msgs][i])
+      end
+    end
   end
 
   def update    
     if @logged_in_user.update_attributes(params[:user])
       flash[:success] = "Password changed."
-      redirect_to domains_url()
+      if APP_CONFIG['https'] == 'all' and RAILS_ENV == 'production'
+        redirect_to :controller => 'domains', :protocol => 'https'
+      else
+        redirect_to :controller => 'domains', :protocol => 'http'
+      end
     else
-      render 'edit'
+      flash[:invalid_attrs] = Array.new; flash[:invalid_msgs] = Array.new
+      @logged_in_user.errors.each {|attr, msg| flash[:invalid_attrs] << attr; flash[:invalid_msgs] << msg}
+      if APP_CONFIG['https'] == 'all' and RAILS_ENV == 'production'
+        redirect_to :id => @logged_in_user.pretty_url, :action => 'edit', :controller => 'users', :protocol => 'https'
+      else
+        redirect_to :id => @logged_in_user.pretty_url, :action => 'edit', :controller => 'users', :protocol => 'http'
+      end
     end
   end
 
@@ -53,10 +68,18 @@ class UsersController < ApplicationController
     if user and user.has_password? params[:password]
       flash[:success] = "Login success, welcome."
       session[:user_id] = user.id 
-      redirect_to domains_url()
+      if APP_CONFIG['https'] == 'all' and RAILS_ENV == 'production'
+        redirect_to :controller => 'domains', :protocol => 'https'
+      else
+        redirect_to :controller => 'domains', :protocol => 'http'
+      end
     else
       flash[:error] = "Invalid username and/or password."
-      redirect_to "/login"
+      if APP_CONFIG['https'] == 'all' and RAILS_ENV == 'production'
+        redirect_to :action => 'login', :controller => 'users', :protocol => 'https'
+      else
+        redirect_to :action => 'login', :controller => 'users', :protocol => 'http'
+      end
     end
   end
 

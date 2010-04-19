@@ -30,7 +30,7 @@
         %header
           %h1 Power<span class="darkblue">WDM</span>
           %p.darkblue Powerful Web-based DNS Management
-      - unless params[:action] == 'login'
+      - unless params[:action] == 'login' or params[:action] == 'edit'
         - flash.each do |key, value|
           %div(class = "flash #{key} right")= value 
       #content
