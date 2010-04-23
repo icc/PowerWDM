@@ -2,6 +2,7 @@ class RecordsController < ApplicationController
   layout 'standard'
   before_filter :my_domain?
   before_filter :cancel?, :only => :update
+  before_filter :back?, :only => :create
 
   def index
     @records = @domain.records
@@ -54,5 +55,8 @@ class RecordsController < ApplicationController
     end
     def cancel?
       redirect_to domain_records_url(:domain_id => @domain.pretty_url) if params[:commit] == 'Cancel'
+    end
+    def back?
+      redirect_to domains_url if params[:commit] == 'Back'
     end
 end
