@@ -1,5 +1,5 @@
 %h2 Login
-- form_tag url_for(:action => 'authenticate', :controller => 'users', :only_path => false, :protocol => protocol)  do
+- form_tag url_for(:action => 'authenticate', :controller => 'users', :only_path => false, :protocol => determine_protocol)  do
   %table.form.round
     %tr
       %th

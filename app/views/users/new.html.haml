@@ -1,12 +1,7 @@
 %h2 Sign up
 
-- form_for @user do |f|
+- form_for @user, :url => {:controller => 'users', :only_path => false, :protocol => determine_protocol} do |f|
   %table.form.round
-    %tr
-      %th
-      %td
-        - flash.each do |key, value|
-          %div(class = "flash #{key} no_space")= value
     %tr
       %th= f.label 'Name / e-mail'
       %td= f.text_field :name

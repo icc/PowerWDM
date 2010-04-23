@@ -13,7 +13,8 @@ class UsersController < ApplicationController
   end
 
   def new
-    @user = User.new    
+    @user = User.new
+    retrive_error_messages @user.errors unless flash[:stored_errors].nil?
   end
 
   def create
@@ -21,36 +22,24 @@ class UsersController < ApplicationController
     if @user.save
       flash[:success] = "Signup success, welcome."
       session[:user_id] = @user.id
-      redirect_to domains_url()
+      redirect_to :controller => 'domains', :protocol => determine_protocol
     else
-      render 'new'
+      store_error_messages @user.errors
+      redirect_to :action => 'new', :controller => 'users', :protocol => determine_protocol
     end
   end
 
   def edit
-    if flash[:invalid_attrs] and flash[:invalid_msgs]
-      flash[:invalid_attrs].size.times do |i|
-        @logged_in_user.errors.add(flash[:invalid_attrs][i], flash[:invalid_msgs][i])
-      end
-    end
+    retrive_error_messages @logged_in_user.errors unless flash[:stored_errors].nil?
   end
 
   def update    
     if @logged_in_user.update_attributes(params[:user])
       flash[:success] = "Password changed."
-      if APP_CONFIG['https'] == 'all' and RAILS_ENV == 'production'
-        redirect_to :controller => 'domains', :protocol => 'https'
-      else
-        redirect_to :controller => 'domains', :protocol => 'http'
-      end
+      redirect_to :controller => 'domains', :protocol => determine_protocol
     else
-      flash[:invalid_attrs] = Array.new; flash[:invalid_msgs] = Array.new
-      @logged_in_user.errors.each {|attr, msg| flash[:invalid_attrs] << attr; flash[:invalid_msgs] << msg}
-      if APP_CONFIG['https'] == 'all' and RAILS_ENV == 'production'
-        redirect_to :id => @logged_in_user.pretty_url, :action => 'edit', :controller => 'users', :protocol => 'https'
-      else
-        redirect_to :id => @logged_in_user.pretty_url, :action => 'edit', :controller => 'users', :protocol => 'http'
-      end
+      store_error_messages @logged_in_user.errors
+      redirect_to :id => @logged_in_user.pretty_url, :action => 'edit', :controller => 'users', :protocol => determine_protocol
     end
   end
 
@@ -68,18 +57,10 @@ class UsersController < ApplicationController
     if user and user.has_password? params[:password]
       flash[:success] = "Login success, welcome."
       session[:user_id] = user.id 
-      if APP_CONFIG['https'] == 'all' and RAILS_ENV == 'production'
-        redirect_to :controller => 'domains', :protocol => 'https'
-      else
-        redirect_to :controller => 'domains', :protocol => 'http'
-      end
+      redirect_to :controller => 'domains', :protocol => determine_protocol
     else
       flash[:error] = "Invalid username and/or password."
-      if APP_CONFIG['https'] == 'all' and RAILS_ENV == 'production'
-        redirect_to :action => 'login', :controller => 'users', :protocol => 'https'
-      else
-        redirect_to :action => 'login', :controller => 'users', :protocol => 'http'
-      end
+      redirect_to :action => 'login', :controller => 'users', :protocol => determine_protocol
     end
   end
 
@@ -135,5 +116,21 @@ class UsersController < ApplicationController
     def first_user?
       @user = User.find params[:id]
       redirect_to users_url() if @user.first_user?
+    end
+    def determine_protocol
+      if APP_CONFIG['https'] == 'all' and RAILS_ENV == 'production'
+        'https'
+      else
+        'http'
+      end
+    end
+    def store_error_messages errors
+      flash[:stored_errors] = Array.new
+      errors.each {|attr, msg| flash[:stored_errors] << Array.[](attr, msg)}
+    end
+    def retrive_error_messages errors
+      for error in flash[:stored_errors] do
+        errors.add error[0], error[1]
+      end
     end
 end
