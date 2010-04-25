@@ -4,8 +4,11 @@ class UsersController < ApplicationController
   before_filter :redirect_logged_in, :only => [:new, :create, :login, :authenticate]
   before_filter :admin?, :only => [:index, :destroy, :promote, :demote, :create_invite, :destroy_invite]
   before_filter :first_user?, :only => [:destroy, :demote]
+  before_filter :check_login_attempts, :only => :authenticate
 
   def index
+    @title = 'Users'
+
     @users = User.find :all, :order => 'created_at'
     @invites = Invite.find :all
 
@@ -13,6 +16,8 @@ class UsersController < ApplicationController
   end
 
   def new
+    @title = 'Sign up'
+
     @user = User.new
     retrive_error_messages @user.errors unless flash[:stored_errors].nil?
   end
@@ -30,6 +35,7 @@ class UsersController < ApplicationController
   end
 
   def edit
+    @title = "Change password"
     retrive_error_messages @logged_in_user.errors unless flash[:stored_errors].nil?
   end
 
@@ -50,22 +56,31 @@ class UsersController < ApplicationController
   end
 
   def login
+    @title = 'Login'
   end
 
   def authenticate
     user = User.find_by_name params[:name] 
     if user and user.has_password? params[:password]
+      # Login success
       flash[:success] = "Login success, welcome."
       session[:user_id] = user.id 
       redirect_to :controller => 'domains', :protocol => determine_protocol
     else
-      flash[:error] = "Invalid username and/or password."
+      # Login failed
+      session[:failed_login_attempts] += 1
+      if session[:failed_login_attempts] >= APP_CONFIG['max_login_attempts']
+        flash[:error] = "You've used up all your login attempts.<br/>Please come back later."
+      else
+        flash[:error] = "Invalid username and/or password."
+      end
       redirect_to :action => 'login', :controller => 'users', :protocol => determine_protocol
     end
   end
 
   def sign_off
     session[:user_id] = nil
+    session[:failed_login_attempts] = nil
     flash[:success] = "Have a nice day."
     redirect_to "/login"
   end
@@ -131,6 +146,20 @@ class UsersController < ApplicationController
     def retrive_error_messages errors
       for error in flash[:stored_errors] do
         errors.add error[0], error[1]
+      end
+    end
+    def check_login_attempts
+      if session[:failed_login_attempts].nil?
+        session[:failed_login_attempts] = 0
+      elsif !session[:blocked_at].nil? and Time.now.to_i > session[:blocked_at] + APP_CONFIG['wait_before_login']
+        # Timed out, reset counter
+        session[:failed_login_attempts] = 0
+        session[:blocked_at] = nil
+      elsif session[:failed_login_attempts] >= APP_CONFIG['max_login_attempts'] 
+        # Block the user
+        session[:blocked_at] = Time.now.to_i
+        flash[:error] = "You've used up all your login attempts.<br/>Please come back later."
+        redirect_to :action => 'login', :controller => 'users', :protocol => determine_protocol
       end
     end
 end

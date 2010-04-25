@@ -6,6 +6,18 @@
 #
 https: user_data_only
 
+## Login time out (in seconds)
+#
+time_out: 1800
+
+## Max login attempts before the user is blocked
+#
+max_login_attempts: 3
+
+## How long the user has to wait after he's blocked (in seconds)
+#
+wait_before_login: 600
+
 ## Default name servers to use for a new domain. 
 #
 # IP is optional, no name servers equals no default SOA record.

@@ -1,7 +1,10 @@
 !!!
 %html{:lang => "en"}
   %head
-    %title PowerfulWDM
+    - if @title
+      %title PowerfulWDM &raquo; #{@title}
+    - else
+      %title PowerfulWDM
     %meta{:charset => "utf-8"}
     %meta{:name => "Description", :content => "Powerful Web-based DNS Management for PowerDNS"}
     %meta{:name => "Keywords", :content => "PowerWDM, PowerDNS, DNS, Management, System, Web, Interface, GUI, Powerful"}

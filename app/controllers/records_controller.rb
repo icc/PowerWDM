@@ -5,6 +5,8 @@ class RecordsController < ApplicationController
   before_filter :back?, :only => :create
 
   def index
+    @title = @domain.name
+
     @records = @domain.records
     if @record.nil?
       @record = Record.new 

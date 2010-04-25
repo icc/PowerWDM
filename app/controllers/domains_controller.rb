@@ -4,6 +4,8 @@ class DomainsController < ApplicationController
   before_filter :cancel?, :only => :update
 
   def index
+    @title = 'Domains'
+
     if @logged_in_user.role == 'admin'
       @domains = Domain.find :all
     else
